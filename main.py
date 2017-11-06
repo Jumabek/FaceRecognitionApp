@@ -47,5 +47,7 @@ B2 = Button(text="Load & Recognize",command = lambda: load_and_recognize(top,lab
 B2.grid(row=1,column=1)
 
 
+
+
 top.mainloop()
 
