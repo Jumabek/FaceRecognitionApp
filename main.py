@@ -8,9 +8,6 @@ import ntpath
 from PIL import Image, ImageTk
 top = tkinter.Tk()
 import numpy as np
-label1 = None
-def helloCallBack():
-    tkinter.messagebox.showinfo("Hello Python","Hello World")
 
 def copy_file(file,dst):
     shutil.copyfile(file,dst=dst)
@@ -31,9 +28,9 @@ def load_and_recognize(top,label):
     print("after")
     image = Image.open(file_path)
     photo = ImageTk.PhotoImage(image)
-    #label.text = "Image Loaded"
+    label.configure(image=photo)
     label.image = photo
-    top.mainloop()
+
 print("from main", os.getcwd())
 E1 = Entry(top,bd=5)
 E1.grid(row=0)
@@ -43,11 +40,7 @@ B.grid(row=0,column=1)
 
 #empty_photo = np.ones((200,200,3),np.uint8)*255
 
-file_path = r"E:\code\ETS\FaceRecognitionDemo\sample images\big_guy.jpg"
-image = Image.open(file_path)
-photo = ImageTk.PhotoImage(image)
-label1 = Label(top,text = "image to be displayed",image = photo)
-label1.image = photo
+label1 = Label(top,text = "image to be displayed")
 label1.grid(row=1)
 
 B2 = Button(text="Load & Recognize",command = lambda: load_and_recognize(top,label1))
