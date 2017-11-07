@@ -67,8 +67,6 @@ label1.grid(row=1)
 B2 = Button(text="Load & Recognize",command = lambda: load_and_recognize(top,label1))
 B2.grid(row=1,column=1)
 
-# start a self.video_loop that constantly pools the video sensor
-# for the most recently read frame
 video_loop()
 
 top.mainloop()
