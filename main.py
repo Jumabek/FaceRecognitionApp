@@ -8,6 +8,9 @@ import ntpath
 from PIL import Image, ImageTk
 top = tkinter.Tk()
 import numpy as np
+import cv2
+
+vs = cv2.VideoCapture(0)
 
 def copy_file(file,dst):
     shutil.copyfile(file,dst=dst)
@@ -31,6 +34,24 @@ def load_and_recognize(top,label):
     label.configure(image=photo)
     label.image = photo
 
+def destructor():
+    top.destroy()
+    vs.release()  # release web camera
+    cv2.destroyAllWindows()
+
+def video_loop():
+    """ Get frame from the video stream and show it in Tkinter """
+    ok, frame = vs.read()  # read frame from video stream
+    if ok:  # frame captured without any errors
+        cv2image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGBA)  # convert colors from BGR to RGBA
+        current_image = Image.fromarray(cv2image)  # convert image for PIL
+        imgtk = ImageTk.PhotoImage(image=current_image)  # convert image for tkinter
+        label1.imgtk = imgtk  # anchor imgtk so it does not be deleted by garbage-collector
+        label1.config(image=imgtk)  # show the image
+    top.after(30, video_loop)
+
+top.protocol('WM_DELETE_WINDOW', destructor)
+        
 print("from main", os.getcwd())
 E1 = Entry(top,bd=5)
 E1.grid(row=0)
@@ -46,8 +67,7 @@ label1.grid(row=1)
 B2 = Button(text="Load & Recognize",command = lambda: load_and_recognize(top,label1))
 B2.grid(row=1,column=1)
 
-
-
+video_loop()
 
 top.mainloop()
 
